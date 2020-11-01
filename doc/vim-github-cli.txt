@@ -1,0 +1,58 @@
+vim-github-cli.txt         Exposes some github-cli functionality within vim.
+
+Author:     Will Pittman
+License:    MIT
+Requires:   github-cli
+
+
+INTRODUCTION                                      *vim-github-cli*
+
+Exposes some github-cli functionality within vim.
+See https://github.com/cli/cli
+
+=========== =========================================================
+gh command  vim command(s)
+=========== =========================================================
+gh pr       `:GhPrBlame`, `:GhPrList`, `:GhPrView`
+gh gist     (not implemented yet)
+gh issue    (not implemented yet)
+gh release  (not implemented yet)
+gh repo     (not implemented yet)
+=========== =========================================================
+
+
+SETUP                                       *vim-github-cli-setup*
+
+    1. Install github-cli for your OS (ex: ``sudo pacman -S github-cli``)
+    2. Associate github-cli to your account (ex: ``gh auth login``)
+    3. Install plugin (vundle, pathogen, rtp)
+
+
+PULL REQUESTS                       *vim-github-cli-pull-requests*
+
+>
+    :GhPrBlame                    " display PR for line within vim
+    :GhPrBlame -w                 " display PR for line in web-browser
+
+    :GhPrList                     " display all PRs that changed current file
+    :GhPrList --since=2015/01/01  " also wraps other `git log` params
+
+    :GhPrView 100                 " display PR #100 in vim
+    :GhPrView 100 -w              " display PR #100 in webbrowser
+
+
+CONFIGURATION                       *vim-github-cli-configuration*
+
+    Configuration is optional.
+
+>
+    " buffers
+    let g:vim_github_cli_opencmd_pr_list = 'vert sb'
+    let g:vim_github_cli_opencmd_pr_view = 'vert sb'
+
+    " hotkeys
+    let g:vim_github_cli_pr_view_map = '<Enter>'
+    let g:vim_github_cli_pr_view_web_map = '<c-o>'
+<
+
+vim:tw=78:et:ft=help:norl
