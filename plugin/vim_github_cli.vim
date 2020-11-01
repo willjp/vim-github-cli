@@ -11,8 +11,8 @@ endfunction
 
 
 " buffers
-call s:set_config_with_fallback('g:vim_github_cli_opencmd_pr_list', 'vert sb')
-call s:set_config_with_fallback('g:vim_github_cli_opencmd_pr_view', 'vert sb')
+call s:set_config_with_fallback('g:vim_github_cli_opencmd_pr_list', 'sb')
+call s:set_config_with_fallback('g:vim_github_cli_opencmd_pr_view', 'sb')
 
 " hotkeys
 call s:set_config_with_fallback('g:vim_github_cli_pr_view_map',     '<Enter>')
