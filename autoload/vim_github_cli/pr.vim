@@ -32,16 +32,21 @@ function! vim_github_cli#pr#list(...)
     " Example:
     "   :GhPrList                     " display all PRs
     "   :GhPrList --since=2015/01/01  " displays PRs merged since 2015/01/01 (see man git-log)
+    "   :GhPrList -n 10               " last 10 PRs
     "
     " Hotkeys:
     "   <Enter>  " display PR text in vim
     "   <c-o>    " display PR in webbrowser
     """
     let l:args = deepcopy(a:000)
-    let l:cmd = ['git', 'log', '--merges', '--oneline', '--grep', 'Merge pull request', '--pretty=[%cs] %h | %an | %s | %b'] 
-                \ + filter(l:args, '!empty(v:val)')
+    let l:cmd = ['git', 'rev-list', '--merges', '--grep', 'Merge pull request'] 
+                \ + filter(l:args, '!empty(v:val)') 
+                \ + ['master', expand('%:p')]
+    let l:merge_commits = systemlist(l:cmd)
 
-    let l:pr_merges = systemlist(l:cmd)
+    " NOTE: piping to `head -n 1` faster, but not supported on windows
+    let l:systemlist_cmd = 'systemlist("git show ". v:val ." \"--pretty=[%cs] %h | %cn | %s | %<(80,trunc)%b\" ")[0]'
+    let l:pr_merges = map(l:merge_commits, l:systemlist_cmd)
     let l:pr_merges = filter(l:pr_merges, 'len(v:val) > 10')
     let l:pr_merges = map(l:pr_merges, "substitute(v:val, 'Merge pull request \\(#\\d\\+\\) from [^\\|]\\+', '\\1 ', '')")
 
