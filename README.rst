@@ -29,15 +29,30 @@ More details in `:help vim-github-cli` .
 Pull Requests
 .............
 
+
 .. code-block:: vim
 
-    :GhPrBlame     " display PR for line within vim (<c-o> to open in webbrowser)
-    :GhPrBlame -w  " display PR for line in web-browser (also wraps other `gh pr` params)
+    " Display PR that changed line under cursor
+    " (within buffer, <c-o> opens in webbrowser)
+    :GhPrBlame
 
-    :GhPrList                     " display all PRs that changed current file
+    " Supports `gh pr` params
+    :GhPrBlame -w
+    :GhPrBlame -R <repo>
+
+
+.. code-block:: vim
+
+    " Display all PRs that touched file
+    " (within buffer, <Enter> shows PR in vim, <c-o> opens in webbrowser)
+    :GhPrList
+
+    " Also supports `git log` params
     :GhPrList --since=2015/01/01  " also wraps other `git log` params
-    " <Enter> displays PR in vim
-    " <c-o> opens PR in webbrowser
+    :GhPrList -n 10
+
+
+.. code-block:: vim
 
     :GhPrView 100     " display PR #100 in vim
     :GhPrView 100 -w  " display PR #100 in webbrowser

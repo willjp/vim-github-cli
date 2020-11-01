@@ -37,6 +37,7 @@ command -nargs=* GhPrBlame :call vim_github_cli#pr#blame(<f-args>)
 "
 " Example
 "   :GhPrList
+"   :GhPrList -n 10
 "   :GhPrList --since=2015/01/01
 "
 command -nargs=* GhPrList :call vim_github_cli#pr#list(<f-args>)
