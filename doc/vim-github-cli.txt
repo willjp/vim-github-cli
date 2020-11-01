@@ -36,6 +36,7 @@ PULL REQUESTS                       *vim-github-cli-pull-requests*
 
     :GhPrList                     " display all PRs that changed current file
     :GhPrList --since=2015/01/01  " also wraps other `git log` params
+    :GhPrList -n 10               " last 10 PRs
 
     :GhPrView 100                 " display PR #100 in vim
     :GhPrView 100 -w              " display PR #100 in webbrowser
