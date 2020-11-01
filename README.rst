@@ -48,7 +48,7 @@ Pull Requests
     :GhPrList
 
     " Also supports `git log` params
-    :GhPrList --since=2015/01/01  " also wraps other `git log` params
+    :GhPrList --since=2015/01/01
     :GhPrList -n 10
 
 
