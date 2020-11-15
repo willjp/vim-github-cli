@@ -1,3 +1,8 @@
+if exists('vim_github_cli_loaded') || &cp
+    finish
+endif
+let vim_github_cli_loaded=1
+
 
 " =============
 " Configuration
