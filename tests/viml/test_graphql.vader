@@ -1,0 +1,40 @@
+After (reload real system.vim functions):
+  source autoload/vim_github_cli/system.vim
+
+Execute (test curl graphql query):
+  so tests/viml/mocks/system.vim
+  call MockSystem('{"data": {"repository": {"description": "my aweseome repo"}}}')
+  call MockWhich({'curl': 0})
+  let query = '{"query": "query {repository(owner: \"user\", name: \"repo\")}{ description }"}'
+  let headers = {}
+  let token = "123456789"
+  call vim_github_cli#graphql#execute_curl(query, headers, token)
+
+  let expected = [[
+    \ "curl", "-X", "POST",
+    \ "-H", "Content-Type: application/json",
+    \ "-H", "Authorization: bearer 123456789",
+    \ "-d", query,
+    \ "-s",
+    \ "https://api.github.com/graphql",
+    \ ]]
+  AssertEqual expected, g:mock_system_args
+
+Execute (test raises except if no http-request handers available):
+  so tests/viml/mocks/system.vim
+  call MockSystem('{"data": {"repository": {"description": "my aweseome repo"}}}')
+  call MockWhich({'curl': 1})
+  let success = 0
+  let query = '{"query": "query {repository(owner: \"user\", name: \"repo\")}{ description }"}'
+  let headers = {}
+  let token = "123456789"
+  try
+    call vim_github_cli#graphql#execute_curl(query, headers, token)
+  catch
+    if vim_github_cli#error#match_exceptioncode("no_http_providers")
+      Assert 1
+    else
+      throw v:exception
+    endif
+  endtry
+
