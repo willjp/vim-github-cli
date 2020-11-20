@@ -1,0 +1,57 @@
+Before (reload error.vim):
+  source autoload/vim_github_cli/error.vim
+
+Execute (test prefix):
+  let result = vim_github_cli#error#prefix("foo")
+  let expects = '[ERROR::VIM-GITHUB-CLI::foo]'
+  AssertEqual result, expects
+
+Execute (test generate):
+  let result = vim_github_cli#error#generate("foo", "reason for throwing foo")
+  let expects = '[ERROR::VIM-GITHUB-CLI::foo] reason for throwing foo'
+  AssertEqual result, expects
+
+Execute (test throw from function):
+  let success = 0
+  try
+    throw vim_github_cli#error#generate("foo", "reason for throwing foo")
+  catch /foo/
+    let success = 1
+  endtry
+  AssertEqual success, 1
+
+Execute (test match_exceptioncodes returns matching code):
+  let success = 0
+  try
+    throw '[ERROR::VIM-GITHUB-CLI::bar] reason for throwing bar'
+  catch
+    let matched_errorcode = vim_github_cli#error#match_exceptioncodes(["foo", "bar", "baz"])
+    AssertEqual matched_errorcode, "bar"
+  endtry
+
+Execute (test match_exceptioncodes returns false if no matching code):
+  let success = 0
+  try
+    throw '[ERROR::VIM-GITHUB-CLI::abc] reason for throwing abc'
+  catch
+    let matched_errorcode = vim_github_cli#error#match_exceptioncodes(["foo", "bar", "baz"])
+    if !matched_errorcode
+      let success = 1
+    endif
+  endtry
+  AssertEqual success, 1
+
+Execute (test match_exceptioncode returns true if match found):
+  try
+    throw '[ERROR::VIM-GITHUB-CLI::foo] reason for throwing foo'
+  catch
+    Assert vim_github_cli#error#match_exceptioncode("foo")
+  endtry
+
+Execute (test match_exceptioncode returns false if no match found):
+  try
+    throw '[ERROR::VIM-GITHUB-CLI::abc] reason for throwing abc'
+  catch
+    let match_found = vim_github_cli#error#match_exceptioncode("foo")
+  endtry
+  AssertEqual match_found, 0
