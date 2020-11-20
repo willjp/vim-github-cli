@@ -1,0 +1,21 @@
+Before (source mocks/system.vim):
+  so tests/viml/mocks/system.vim
+
+After (reload real system.vim functions):
+  source autoload/vim_github_cli/system.vim
+
+Execute (test MockSystem returns requested result):
+  call MockSystem("abcd")
+  let result = vim_github_cli#system#system("some-fake-command -a -b -c")
+  AssertEqual result, "abcd"
+
+Execute (test MockSystem records string cmd):
+  call MockSystem("some result")
+  call vim_github_cli#system#system("some-fake-command -a -b -c")
+  AssertEqual g:mock_system_args, ["some-fake-command -a -b -c"]
+
+Execute (test MockSystem records list cmd):
+  call MockSystem("some result")
+  call vim_github_cli#system#system(["some-fake-command", "-a", "-b", "-c"])
+  AssertEqual g:mock_system_args, [["some-fake-command", "-a", "-b", "-c"]]
+

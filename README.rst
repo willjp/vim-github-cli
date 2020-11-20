@@ -72,3 +72,11 @@ Configuration
     let g:vim_github_cli_pr_view_web_map = '<c-o>'
 
 
+Testing
+--------
+
+Tests are written using `vader.vim`_ . Run tests using ``./run-tests`` (see --help param for options).
+Alternatively, install the wonderful `vim-test`_ and run them vim.
+
+.. _vim-test: https://github.com/vim-test/vim-test
+.. _vader.vim: https://github.com/junegunn/vader.vim
