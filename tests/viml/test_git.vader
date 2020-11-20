@@ -1,0 +1,27 @@
+Before (source mocks/system.vim):
+  so tests/viml/mocks/system.vim
+
+After (reload real system.vim functions):
+  source autoload/vim_github_cli/system.vim
+
+Execute (test remote_domain from http url):
+  call MockSystem('http://github.com/jekporkins/autopilot')
+  let domain = vim_github_cli#git#remote_domain("origin")
+  AssertEqual "github.com", domain
+
+Execute (test remote_domain from https url):
+  call MockSystem("https://github.com/jekporkins/autopilot")
+  let domain = vim_github_cli#git#remote_domain("origin")
+  AssertEqual "github.com", domain
+
+Execute (test domain from raw ssh url):
+  call MockSystem("git@github.com:jekporkins/autopilot")
+  let domain = vim_github_cli#git#remote_domain("origin")
+  AssertEqual "github.com", domain
+
+Execute (test domain from ssh-config url):
+  call MockSystem("github.com:jekporkins/autopilot")
+  let domain = vim_github_cli#git#remote_domain("origin")
+  AssertEqual "github.com", domain
+
+
